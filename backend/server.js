@@ -35,16 +35,6 @@ app.use(express.json());
 // API routes
 app.use('/api/placement', placementRoutes);
 
-// Serve frontend static files (Vite build output from `client/dist`)
-app.use(express.static(path.join(__dirname, '../client/dist')));
-
-// Catch-all route (for React Router)
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-});
-
-
-
 
 // Start server after DB connects
 const PORT = process.env.PORT || 5000;
