@@ -23,7 +23,7 @@ useEffect(() => {
 
       // ✅ Await axios
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/placement/${tabName}/${subTabName}/${topicName}/questions`
+        `https://pctequiz.onrender.com/api/placement/${tabName}/${subTabName}/${topicName}/questions`
       );
 
       console.log(res.data);
