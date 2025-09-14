@@ -30,48 +30,66 @@ import PlacementEssential from "../models/PlacementEssential.js";
 
 export const addQuestion = async (req, res) => {
   try {
-    const { tab, subTab, topic } = req.params;
-    let { question, options, answer, questions } = req.body;
+    // ✅ Decode URL parameters in case they have spaces or special characters
+    const tab = decodeURIComponent(req.params.tab);
+    const subTab = decodeURIComponent(req.params.subTab);
+    const topic = decodeURIComponent(req.params.topic);
 
+    // ✅ Support both single question and bulk
+    const { question, options, answer, questions } = req.body;
+
+    // 🧠 Validate data shape
+    if (
+      (!question || !options || answer === undefined) &&
+      (!Array.isArray(questions) || questions.length === 0)
+    ) {
+      return res.status(400).json({
+        error: "Provide either a single question (question, options, answer) or a valid 'questions' array.",
+      });
+    }
+
+    // ✅ Find the tab
     const placement = await PlacementEssential.findOne({ tabName: tab });
     if (!placement) return res.status(404).json({ error: "Tab not found" });
 
+    // ✅ Find sub-tab
     const sub = placement.subTabs.find((s) => s.subTabName === subTab);
     if (!sub) return res.status(404).json({ error: "SubTab not found" });
 
+    // ✅ Find topic
     const topicObj = sub.topics.find((t) => t.topicName === topic);
     if (!topicObj) return res.status(404).json({ error: "Topic not found" });
 
-    // ✅ Handle multiple or single
+    // ✅ Add questions (either one or many)
     if (Array.isArray(questions) && questions.length > 0) {
-      // multiple questions at once
       questions.forEach((q) => {
         if (q.question && q.options && q.answer !== undefined) {
           topicObj.questions.push(q);
         }
       });
-    } else if (question && options && answer !== undefined) {
-      // single question
-      topicObj.questions.push({ question, options, answer });
     } else {
-      return res
-        .status(400)
-        .json({ error: "Invalid data format. Provide a question or questions array." });
+      topicObj.questions.push({ question, options, answer });
     }
 
+    // ✅ Save
     await placement.save();
 
-    res.json({ message: "Question(s) added successfully" });
+    res.status(201).json({ message: "Question(s) added successfully" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("❌ Error adding question:", err);
+    res.status(500).json({ error: err.message || "Internal Server Error" });
   }
 };
+
 
 
 // Get questions
 export const getQuestions = async (req, res) => {
   try {
-    const { tab, subTab, topic } = req.params;
+    // ✅ Decode URI components
+    const tab = decodeURIComponent(req.params.tab);
+    const subTab = decodeURIComponent(req.params.subTab);
+    const topic = decodeURIComponent(req.params.topic);
 
     const placement = await PlacementEssential.findOne({ tabName: tab });
     if (!placement) return res.status(404).json({ error: "Tab not found" });
