@@ -17,9 +17,18 @@ function QuizPage() {
 
   // Fetch questions
 useEffect(() => {
+
+  console.log("TAB:", tabName);
+console.log("SUBTAB:", subTabName);
+console.log("TOPIC:", topicName);
+
   const fetchQuestions = async () => {
     try {
       if (!tabName || !subTabName || !topicName) return;
+
+      console.log("TAB:", tabName);
+console.log("SUBTAB:", subTabName);
+console.log("TOPIC:", topicName);
 
       // ✅ Await axios
       const res = await axios.get(
