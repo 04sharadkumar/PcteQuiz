@@ -20,7 +20,10 @@ useEffect(() => {
   const fetchQuestions = async () => {
     try {
       if (!tabName || !subTabName || !topicName) return;
-      const res = axios.get(`${import.meta.env.VITE_API_URL}/placement/${tabName}/${subTabName}/${topicName}/questions`
+
+      // ✅ Await axios
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/placement/${tabName}/${subTabName}/${topicName}/questions`
       );
 
       let fetched = res.data || [];
@@ -40,8 +43,10 @@ useEffect(() => {
       setLoading(false);
     }
   };
+
   fetchQuestions();
 }, [tabName, subTabName, topicName]);
+
 
 
   const handleChange = (qId, optionIndex) => {
