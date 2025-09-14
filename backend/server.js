@@ -19,22 +19,29 @@ const __dirname = path.dirname(__filename);
 // Init express app
 const app = express();
 
-// Allowed CORS origins
+// ✅ Allowed CORS origins (fix applied)
 const allowedOrigins = [
-  'http://localhost:3000', // local Vite dev
-  'https://your-frontend.onrender.com' // deployed frontend (update this)
+  'http://localhost:5173',
+  'https://pcteplacementquiz.netlify.app'
 ];
 
-// Middleware
+// ✅ CORS middleware
 app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
+
+// Middleware
 app.use(express.json());
 
 // API routes
 app.use('/api/placement', placementRoutes);
-
 
 // Start server after DB connects
 const PORT = process.env.PORT || 5000;
