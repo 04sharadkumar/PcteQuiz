@@ -154,7 +154,7 @@ export default function TopicPage() {
   const currentPath = location.pathname;
 
  
-  navigate(`${currentPath}/quizQuestion`, {
+  navigate(`${currentPath}/questions`, {
     state: { card: { topic: topicName } },
   });
 };

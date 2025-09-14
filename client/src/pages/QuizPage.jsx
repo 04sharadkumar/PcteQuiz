@@ -26,6 +26,9 @@ useEffect(() => {
         `${import.meta.env.VITE_API_URL}/api/placement/${tabName}/${subTabName}/${topicName}/questions`
       );
 
+      console.log(res.data);
+      
+
       let fetched = res.data || [];
 
       // ✅ Shuffle questions randomly
