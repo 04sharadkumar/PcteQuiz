@@ -19,13 +19,7 @@ export default function NotFound() {
       </p>
 
       {/* Image */}
-      <div className="mt-10">
-        <img
-          src="/images.png"
-          alt="Not Found"
-          className="max-w-[400px] md:max-w-[520px] rounded-lg shadow-lg"
-        />
-      </div>
+     
 
       {/* Back Button */}
       <Link to="/" className="mt-10">
