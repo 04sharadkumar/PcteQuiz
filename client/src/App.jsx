@@ -3,10 +3,14 @@ import PlacementEssentials from "./pages/PlacementEssentials";
 import TopicPage from "./pages/TopicPage";
 import PlacementHome from "./pages/PlacementHome";
 import QuizPage from "./pages/QuizPage";
+import NotFound from "./pages/NotFound"
 
 function App() {
   return (
     <Routes>
+
+      <Route path="*" element={<NotFound />} />
+
       {/* Home page */}
       <Route path="/" element={<PlacementHome />} />
 
