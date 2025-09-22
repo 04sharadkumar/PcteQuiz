@@ -41,9 +41,9 @@ export const topics = {
   "Line Graphs",
   "Pie Charts",
   "Tabulation",
-  "Caselets",
+  "Caselets", // Pending iske bad ke sare
   "Missing Data Interpretation",
-  "Data Sufficiency (DI Based)",
+  "Data Sufficiency (DI Based)", 
   "Radar Graphs",
   "Mixed Graphs",
   "Cumulative Graphs",

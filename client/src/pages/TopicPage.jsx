@@ -133,10 +133,9 @@
 //   );
 // }
 
-
-
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 export default function TopicPage() {
   const { topic } = useParams();
@@ -145,40 +144,42 @@ export default function TopicPage() {
   const topicName = location.state?.topic || topic;
 
   const [activeTab, setActiveTab] = useState("Quizzes");
+  const tabs = ["Quizzes", "Notes", "Study Material"];
 
-  const tabs = ["Quizzes"];
-
-  // Handle quiz start
   const startQuiz = () => {
-  
-  const currentPath = location.pathname;
-
- 
-  navigate(`${currentPath}/questions`, {
-    state: { card: { topic: topicName } },
-  });
-};
+    navigate(`${location.pathname}/questions`, {
+      state: { card: { topic: topicName } },
+    });
+  };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto">
+      {/* Back Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 mb-6 px-4 py-2 border border-[#9B1C1C] text-[#9B1C1C] rounded-full hover:bg-[#9B1C1C] hover:text-white transition"
+      >
+        <ArrowLeft size={18} /> Back
+      </button>
+
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-md p-6 border mb-6 text-center">
+      <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-[#9B1C1C]">{topicName}</h1>
-        <p className="mt-2 text-gray-600">
-          Explore <b>{topicName}</b> with quizzes.
+        <p className="text-gray-700 mt-2">
+          Explore <b>{topicName}</b> with quizzes and study resources.
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex justify-center gap-4 mb-6">
+      <div className="flex justify-center gap-6 mb-8 flex-wrap border-b border-gray-200 pb-2">
         {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-6 py-2 rounded-lg font-semibold transition ${
+            className={`relative px-4 py-2 font-medium transition ${
               activeTab === tab
-                ? "bg-[#9B1C1C] text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "text-[#9B1C1C] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#9B1C1C]"
+                : "text-gray-600 hover:text-[#9B1C1C]"
             }`}
           >
             {tab}
@@ -186,52 +187,42 @@ export default function TopicPage() {
         ))}
       </div>
 
-      {/* Content */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Content Cards */}
+      <div className="grid sm:grid-cols-2 gap-6">
         {activeTab === "Quizzes" && (
-          <>
-            <div className="p-5 bg-white shadow-md rounded-xl border hover:shadow-lg transition">
-              <h2 className="text-lg font-bold text-gray-800">{topicName} Quiz</h2>
-              <p className="text-gray-600 mt-2">
-                Practice questions on {topicName}.
-              </p>
-              <button
-                onClick={() => startQuiz("")}
-                className="mt-4 px-4 py-2 bg-[#9B1C1C] text-white rounded-lg hover:bg-red-800"
-              >
-                Start Quiz
-              </button>
-            </div>
-
-         
-          </>
+          <div className="p-6 bg-white border border-gray-200 rounded-lg hover:shadow-md transition cursor-pointer">
+            <h2 className="text-xl font-semibold text-gray-800">{topicName} Quiz</h2>
+            <p className="text-gray-600 mt-1">Practice questions for {topicName}.</p>
+            <button
+              onClick={startQuiz}
+              className="mt-4 w-full py-2 bg-[#9B1C1C] text-white rounded hover:bg-red-700 transition"
+            >
+              Start Quiz
+            </button>
+          </div>
         )}
 
-        {/* {activeTab === "Notes" && (
-          <div className="p-5 bg-white shadow-md rounded-xl border hover:shadow-lg transition">
-            <h2 className="text-lg font-bold text-gray-800">Quick Notes</h2>
-            <p className="text-gray-600 mt-2">
-              Summary notes for {topicName}.
-            </p>
-            <button className="mt-4 px-4 py-2 border border-[#9B1C1C] text-[#9B1C1C] rounded-lg hover:bg-[#9B1C1C] hover:text-white transition">
+        {activeTab === "Notes" && (
+          <div className="p-6 bg-white border border-gray-200 rounded-lg hover:shadow-md transition cursor-pointer">
+            <h2 className="text-xl font-semibold text-gray-800">Notes</h2>
+            <p className="text-gray-600 mt-1">Summary notes for {topicName}.</p>
+            <button className="mt-4 w-full py-2 border border-[#9B1C1C] text-[#9B1C1C] rounded hover:bg-[#9B1C1C] hover:text-white transition">
               View Notes
             </button>
           </div>
-        )} */}
+        )}
 
-        {/* {activeTab === "Study Material" && (
-          <div className="p-5 bg-white shadow-md rounded-xl border hover:shadow-lg transition">
-            <h2 className="text-lg font-bold text-gray-800">PDF Material</h2>
-            <p className="text-gray-600 mt-2">
-              Downloadable study resource for {topicName}.
-            </p>
-            <button className="mt-4 px-4 py-2 bg-[#9B1C1C] text-white rounded-lg hover:bg-red-800">
+        {activeTab === "Study Material" && (
+          <div className="p-6 bg-white border border-gray-200 rounded-lg hover:shadow-md transition cursor-pointer">
+            <h2 className="text-xl font-semibold text-gray-800">Study Material</h2>
+            <p className="text-gray-600 mt-1">Downloadable resources for {topicName}.</p>
+            <button className="mt-4 w-full py-2 bg-[#9B1C1C] text-white rounded hover:bg-red-700 transition">
               Download
             </button>
           </div>
-        )} */}
+        )}
+
       </div>
     </div>
-
   );
 }
