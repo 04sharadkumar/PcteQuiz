@@ -21,11 +21,8 @@ const app = express();
 
 // ✅ Allowed CORS origins (fix applied)
 const allowedOrigins = [
-  'http://localhost:5173',
   'https://pcteplacementquiz.netlify.app',
   'https://pcte-quiz.vercel.app/',
-  'https://pcte-quiz-git-main-04sharadkumars-projects.vercel.app/',
-  'https://pcte-quiz-mbus1xqez-04sharadkumars-projects.vercel.app/'
 ];
 
 // ✅ CORS middleware
